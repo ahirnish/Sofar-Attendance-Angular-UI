@@ -1,0 +1,76 @@
+<h1>Create new Sofar event</h1>
+
+<form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+
+    <h5 *ngIf="success">Your form is valid!</h5>
+    <h5 *ngIf="errorMsg" style="color:red;">{{ errorMsg }}</h5>
+
+<!--
+    <label>
+      Date:
+      <input type="number" formControlName="day">
+      <div *ngIf="submitted && messageForm.controls.day.errors" class="error">
+	<div *ngIf="messageForm.controls.day.errors.required">Date is required</div>
+	<div *ngIf="messageForm.controls.day.errors.min || messageForm.controls.day.errors.max">Date is out of range</div>
+      </div>
+    </label>
+
+    <label>
+      Month:
+      <input type="number" formControlName="month">
+      <div *ngIf="submitted && messageForm.controls.month.errors" class="error">
+	<div *ngIf="messageForm.controls.month.errors.required">Month is required</div>
+	<div *ngIf="messageForm.controls.month.errors.min || messageForm.controls.month.errors.max">Month is out of range</div>
+      </div>
+    </label>
+
+    <label>
+      Year:
+      <input type="number" formControlName="year">
+      <div *ngIf="submitted && messageForm.controls.year.errors" class="error">
+	<div *ngIf="messageForm.controls.year.errors.required">Year is required</div>
+	<div *ngIf="messageForm.controls.year.errors.min">Year is out of range</div>
+      </div>
+    </label>
+-->
+
+    <label>
+      <mat-form-field>
+        <input formControlName="date" matInput [matDatepicker]="picker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <div *ngIf="submitted && messageForm.controls.date.errors" class="error">
+        <span *ngIf="messageForm.controls.date.errors.required">Date is required</span>
+      </div>
+    </label>
+
+    <label>
+      Location:
+      <input type="text" formControlName="location">
+      <div *ngIf="submitted && messageForm.controls.location.errors" class="error">
+	<div *ngIf="messageForm.controls.location.errors.required">Location is required</div>
+      </div>
+    </label>
+
+    <input type="submit" value="Send message" class="cta">
+
+</form>
+
+<div *ngIf="submitted" class="results">
+<!--
+    <strong>Day:</strong>
+    <span>{{ messageForm.controls.day.value }}</span>
+
+    <strong>Month:</strong>
+    <span>{{ messageForm.controls.month.value }}</span>
+
+    <strong>Year:</strong>
+    <span>{{ messageForm.controls.year.value }}</span>
+-->
+    <strong>Date:</strong>
+    <span>{{ messageForm.controls.date.value | date }}</span>
+    
+    <strong>Location:</strong>
+    <span>{{ messageForm.controls.location.value }}</span>
+</div>

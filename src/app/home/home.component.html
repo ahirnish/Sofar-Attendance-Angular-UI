@@ -1,0 +1,8 @@
+<h1>Events</h1>
+
+<ul *ngIf="events">
+  <li *ngFor="let event of events">
+    <img src="assets/sofar_logo.png"/>
+    <p>{{ event.date }} {{ event.location }}</p>
+  </li>
+</ul>

@@ -1,0 +1,65 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataService } from '../data.service';
+import * as moment from 'moment';
+
+@Component({
+  selector: 'app-event',
+  templateUrl: './event.component.html',
+  styleUrls: ['./event.component.scss']
+})
+export class EventComponent implements OnInit {
+
+  messageForm: FormGroup;
+  submitted = false;
+  success = false;
+  errorMsg: string = "";
+
+  constructor(private formBuilder: FormBuilder, private data: DataService) { }
+
+  ngOnInit() {
+      this.messageForm = this.formBuilder.group( {
+      		         
+                        // day: ['', [Validators.required, Validators.min(1), Validators.max(31)]],
+                        // month: ['', [Validators.required, Validators.min(1), Validators.max(12)]],
+                        // year: ['', [Validators.required, Validators.min(2000)]],
+			 date: ['', Validators.required],   
+                         location: ['', Validators.required]
+      } );	   
+  }
+
+  onSubmit() {
+  	this.submitted = true;
+	this.success = false;
+	this.errorMsg = "";
+  	if(this.messageForm.invalid){
+		return;
+	}
+        var event = { day: moment(this.messageForm.get('date').value).date(),
+                      month: moment(this.messageForm.get('date').value).month()+1,
+                      year: moment(this.messageForm.get('date').value).year(),
+                      location: this.messageForm.get('location').value
+                    };
+
+	this.data.createEvent(event).subscribe(
+	   (response) => {
+	      this.success = true;
+              console.log(response);
+	   },
+	   (err) => {
+	      if (err.error instanceof Error) {
+	      	 console.log('Frontend or network error:', err.error);
+	      } else {
+	        console.log('Backend returned status code: ', err.status);
+	      	console.log('Response body:', err.error.message);
+		if (err.status == 0) {
+    		   this.errorMsg = "*server is down" 
+		} else {
+		   this.errorMsg = "*" + err.error.message;
+		}
+	      }
+	   }
+	);
+  }
+
+}

@@ -1,0 +1,63 @@
+<p>
+  Sofar Attendance
+</p>
+
+<button (click)="onGetAttendeesSubmit()" class="cta">Get data from Sofar signup</button>
+
+<ul *ngIf="attendees">
+  <li *ngFor="let attendee of attendees.data">
+    <p>{{ attendee.first_name }} {{ attendee.last_name }}</p>
+  </li>
+</ul>
+
+<h5 *ngIf="errorMsg" style="color:red;">{{ errorMsg }}</h5>
+
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="attendanceForm" (ngSubmit)="onAttendanceFormSubmit()">
+      <table>    
+	
+	<tr>
+	  <mat-form-field>
+	    <input formControlName="date" matInput [matDatepicker]="picker" placeholder="Choose a date">
+	    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+	    <mat-datepicker #picker></mat-datepicker>
+	  </mat-form-field>
+	</tr>
+
+	 <input type="submit" value="Get Attendance Data" class="cta">
+
+      </table>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="attendeesList">
+  <mat-card-content>
+    <form [formGroup]="attendanceMarkForm" (ngSubmit)="onAttendanceMarkFormSubmit()">
+      <table>
+
+        <tr>
+          <mat-form-field>
+            <mat-select formControlName="email" placeholder="Select name">
+              <mat-option *ngFor="let attendee of attendeesList" [value]="attendee.person.email">
+                {{attendee.person.first_name}} {{attendee.person.last_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </tr>
+
+        <tr>
+          <div *ngIf="attendanceMarkForm.get('email').dirty">
+            <span>{{ attendanceMarkForm.controls.email.value }}</span>
+          </div>
+        </tr>
+
+        <input type="submit" value="Mark present" class="cta">
+
+      </table>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<h5 *ngIf="markPresentMsg" style="color:blue;">{{ markPresentMsg }}</h5>
