@@ -11,15 +11,15 @@ export class AppComponent {
   loading = false;
 
   constructor( private router: Router ) {
-     this.router.events.subscribe((event:Event) => {
+     this.router.events.subscribe(event:Event => {
         switch(true) {
-	   case event instanceof NavigationStart: {
+	   case event instance of NavigationStart: {
 	   	this.loading = true;
 		break;
 	   }
-	   case event instanceof NavigationEnd:
-	   case event instanceof NavigationError:
-	   case event instanceof NavigationCancel: {
+	   case event instance of NavigationEnd:
+	   case event instance of NavigationError:
+	   case event instance of NavigationCancel: {
 	   	this.loading = false;
 		break;
 	   }

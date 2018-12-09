@@ -16,6 +16,7 @@ export class AttendanceComponent implements OnInit {
   attendanceMarkForm: FormGroup;
   errorMsg: string = "";
   markPresentMsg: string = "";
+  loading = false;
 
   constructor(private formBuilder: FormBuilder, private data: DataService) { }
 
@@ -28,12 +29,15 @@ export class AttendanceComponent implements OnInit {
   }
 
   onGetAttendeesSubmit() {
+     this.loading = true;
      this.data.getAttendeesFromSofarSignup().subscribe(
      response => {
+     	      this.loading = false;
      	      this.attendees = response.body;
               console.log(this.attendees);
      },
      err => {
+         this.loading = false;
      	 if (err.error instanceof Error) {
                  console.log('Frontend or network error:', err.error);
          } else {
@@ -49,11 +53,13 @@ export class AttendanceComponent implements OnInit {
 //     console.log(moment(this.attendanceForm.get('date').value).format('LL'));
 //     console.log(moment(this.attendanceForm.get('date').value).month()+1);
 
+     this.loading = true;
      this.attendeesList = null;
      this.errorMsg = "";
      this.markPresentMsg = "";     
 
      if(this.attendanceForm.invalid){
+	  this.loading = false;
 	  console.log("attendance form invalid - date")	  
 	  return;
      }
@@ -63,6 +69,7 @@ export class AttendanceComponent implements OnInit {
 				    moment(this.attendanceForm.get('date').value).year()).subscribe(
      response => {
               this.attendeesList = response.body;
+	      this.loading = false;
               console.log(this.attendeesList);
 
 	      this.attendanceMarkForm = this.formBuilder.group( {
@@ -71,6 +78,7 @@ export class AttendanceComponent implements OnInit {
 	      
      },
      err => {
+         this.loading = false;
          if (err.error instanceof Error) {
                  console.log('Frontend or network error:', err.error);
          } else {
@@ -87,9 +95,11 @@ export class AttendanceComponent implements OnInit {
   } 
 
   onAttendanceMarkFormSubmit() {
+     this.loading = true;
      this.errorMsg = "";
      this.markPresentMsg = "";
      if(this.attendanceMarkForm.invalid){
+	  this.loading = false;
           console.log("attendance mark form invalid - email")
           return;
      }  
@@ -107,10 +117,12 @@ export class AttendanceComponent implements OnInit {
 
      this.data.markPresentForAttendee(attendance).subscribe(
 	response => {
+	   this.loading = false;
 	   console.log(response.body);
 	   this.markPresentMsg = this.attendanceMarkForm.get('email').value + " marked attended for event on " + moment(this.attendanceForm.get('date').value).format('LL');
 	},
 	err => {
+	   this.loading = false;
 	   console.log('Backend returned status code: ', err.status);
            console.log('Response body:', err.error.message);
            if (err.status == 0) {

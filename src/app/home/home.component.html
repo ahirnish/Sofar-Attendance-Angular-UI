@@ -1,4 +1,6 @@
 <h1>Events</h1>
+<mat-progress-bar *ngIf="loading" color="warn" mode="indeterminate"></mat-progress-bar>
+<h5 *ngIf="errorMsg" style="color:red;">{{ errorMsg }}</h5>
 
 <ul *ngIf="events">
   <li *ngFor="let event of events">

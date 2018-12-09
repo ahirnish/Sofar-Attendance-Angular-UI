@@ -14,6 +14,7 @@ export class EventComponent implements OnInit {
   submitted = false;
   success = false;
   errorMsg: string = "";
+  loading = false;
 
   constructor(private formBuilder: FormBuilder, private data: DataService) { }
 
@@ -32,7 +33,9 @@ export class EventComponent implements OnInit {
   	this.submitted = true;
 	this.success = false;
 	this.errorMsg = "";
+	this.loading = true;
   	if(this.messageForm.invalid){
+	        this.loading = false;
 		return;
 	}
         var event = { day: moment(this.messageForm.get('date').value).date(),
@@ -44,9 +47,11 @@ export class EventComponent implements OnInit {
 	this.data.createEvent(event).subscribe(
 	   (response) => {
 	      this.success = true;
+	      this.loading = false;
               console.log(response);
 	   },
 	   (err) => {
+	      this.loading = false;
 	      if (err.error instanceof Error) {
 	      	 console.log('Frontend or network error:', err.error);
 	      } else {

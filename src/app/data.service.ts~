@@ -28,4 +28,20 @@ export class DataService {
      } )
   }
 
+  getAttendeesFromDate(date, month, year) {
+     return this.http.get( 'http://18.225.10.172:8000/api/attendance/' + year + '/' + month + '/' + date + '/',
+     {
+        observe: 'response',
+	responseType: 'json'
+     } )
+  }
+
+  markPresentForAttendee(attendance) {
+     return this.http.put('http://18.225.10.172:8000/api/attendance/present/', attendance,
+     {	    
+	observe: 'response',
+        responseType: 'json'
+     } )
+  }
+
 }

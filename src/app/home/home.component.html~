@@ -2,7 +2,7 @@
 
 <ul *ngIf="events">
   <li *ngFor="let event of events">
-    <img [src]="assets/sofar_logo.png">
+    <img src="assets/sofar_logo.png"/>
     <p>{{ event.date }} {{ event.location }}</p>
   </li>
 </ul>

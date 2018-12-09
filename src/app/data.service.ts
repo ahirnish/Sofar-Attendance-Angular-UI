@@ -9,7 +9,11 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   getEvents() {
-      return this.http.get('http://18.225.10.172:8000/api/event/all/')	      
+      return this.http.get('http://18.225.10.172:8000/api/event/all/',
+      {
+	observe: 'response',
+	responseType: 'json'
+      } )	      
   }
 
   createEvent(event) {

@@ -2,7 +2,7 @@
   Sofar Attendance
 </p>
 
-<button (click)="onGetAttendeesSubmit()">Get data from Sofar signup</button>
+<button (click)="onGetAttendeesSubmit()" class="cta">Get data from Sofar signup</button>
 
 <ul *ngIf="attendees">
   <li *ngFor="let attendee of attendees.data">
@@ -25,7 +25,7 @@
 	  </mat-form-field>
 	</tr>
 
-        <button mat-raised-button color="accent" class="cta">Get Attendance Data</button>
+	 <input type="submit" value="Get Attendance Data" class="cta">
 
       </table>
     </form>

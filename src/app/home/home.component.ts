@@ -9,14 +9,35 @@ import { DataService } from '../data.service';
 export class HomeComponent implements OnInit {
 
   events: Object;
+  loading = false;
+  errorMsg = "";
 
   constructor(private data: DataService) { }
 
   ngOnInit() {
+     this.loading = true;
+     this.errorMsg = "";
 
-     this.data.getEvents().subscribe(data => {
-        this.events = data
-        console.log(this.events);
+     this.data.getEvents().subscribe(
+        response => {
+        	 this.events = response.body;
+		 this.loading = false;
+        	 console.log(this.events);
+     }, 
+        err => {
+	    this.loading = false;
+	    if (err.error instanceof Error) {
+                 console.log('Frontend or network error:', err.error);
+              } else {
+                console.log('Backend returned status code: ', err.status);
+                console.log('Response body:', err.error.message);
+                if (err.status == 0) {
+                   this.errorMsg = "*server is down"
+                } else {
+                   this.errorMsg = "*" + err.error.message;
+		}
+              }
+     	
      } );
   }
 

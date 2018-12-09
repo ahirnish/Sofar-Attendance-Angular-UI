@@ -1,5 +1,7 @@
 <h1>Create new Sofar event</h1>
 
+<mat-progress-bar *ngIf="loading" color="warn" mode="indeterminate"></mat-progress-bar>
+
 <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
 
     <h5 *ngIf="success">Your form is valid!</h5>

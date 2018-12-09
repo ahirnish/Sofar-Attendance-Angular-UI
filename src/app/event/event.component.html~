@@ -1,10 +1,13 @@
 <h1>Create new Sofar event</h1>
 
+<mat-progress-bar color="warn" mode="indeterminate"></mat-progress-bar>
+
 <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
 
     <h5 *ngIf="success">Your form is valid!</h5>
     <h5 *ngIf="errorMsg" style="color:red;">{{ errorMsg }}</h5>
 
+<!--
     <label>
       Date:
       <input type="number" formControlName="day">
@@ -31,6 +34,18 @@
 	<div *ngIf="messageForm.controls.year.errors.min">Year is out of range</div>
       </div>
     </label>
+-->
+
+    <label>
+      <mat-form-field>
+        <input formControlName="date" matInput [matDatepicker]="picker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <div *ngIf="submitted && messageForm.controls.date.errors" class="error">
+        <span *ngIf="messageForm.controls.date.errors.required">Date is required</span>
+      </div>
+    </label>
 
     <label>
       Location:
@@ -45,6 +60,7 @@
 </form>
 
 <div *ngIf="submitted" class="results">
+<!--
     <strong>Day:</strong>
     <span>{{ messageForm.controls.day.value }}</span>
 
@@ -53,7 +69,10 @@
 
     <strong>Year:</strong>
     <span>{{ messageForm.controls.year.value }}</span>
-
+-->
+    <strong>Date:</strong>
+    <span>{{ messageForm.controls.date.value | date }}</span>
+    
     <strong>Location:</strong>
     <span>{{ messageForm.controls.location.value }}</span>
 </div>
